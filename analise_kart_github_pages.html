@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Kart - Rodrigo x Guilherme</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{font-family:Arial,sans-serif;background:#111;color:#eee;margin:0;padding:20px}
+.card{background:#1b1b1b;border-radius:10px;padding:20px;margin-bottom:20px}
+h1,h2{color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+canvas{background:#fff;border-radius:8px}
+</style>
+</head>
+<body>
+<h1>🏁 Dashboard de Corrida</h1>
+
+<div class="card">
+<h2>Comparação Rodrigo × Guilherme</h2>
+<p>Versão inicial pronta para GitHub Pages. Substitua os datasets pelos dados completos da corrida.</p>
+</div>
+
+<div class="grid">
+<div class="card"><canvas id="pace"></canvas></div>
+<div class="card"><canvas id="cons"></canvas></div>
+</div>
+
+<script>
+new Chart(document.getElementById('pace'),{
+ type:'line',
+ data:{
+  labels:[1,2,3,4,5,6,7,8,9,10],
+  datasets:[
+   {label:'Rodrigo',data:[61.8,61.2,61.0,60.9,60.8,60.7,60.6,60.7,60.5,60.5]},
+   {label:'Guilherme',data:[62.1,61.6,61.4,61.2,61.0,60.9,60.8,60.9,60.7,60.4]}
+  ]
+ }
+});
+
+new Chart(document.getElementById('cons'),{
+ type:'bar',
+ data:{
+  labels:['Rodrigo','Guilherme'],
+  datasets:[{label:'Desvio padrão',data:[0.729,1.693]}]
+ }
+});
+</script>
+</body>
+</html>
