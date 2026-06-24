@@ -1,49 +1,82 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Kart - Rodrigo x Guilherme</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Kart Profissional</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-body{font-family:Arial,sans-serif;background:#111;color:#eee;margin:0;padding:20px}
-.card{background:#1b1b1b;border-radius:10px;padding:20px;margin-bottom:20px}
-h1,h2{color:#fff}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-canvas{background:#fff;border-radius:8px}
+body{font-family:Segoe UI,Arial;background:#0f172a;color:#e5e7eb;margin:0;padding:20px}
+.container{max-width:1400px;margin:auto}
+.card{background:#1e293b;border-radius:12px;padding:20px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+.metric{background:#334155;padding:15px;border-radius:10px}
+h1,h2{margin-top:0}
+canvas{background:#fff;border-radius:8px;padding:10px}
+.small{color:#cbd5e1}
 </style>
 </head>
 <body>
-<h1>🏁 Dashboard de Corrida</h1>
+<div class="container">
+<h1>🏁 Dashboard Kart – Rodrigo × Guilherme</h1>
 
 <div class="card">
-<h2>Comparação Rodrigo × Guilherme</h2>
-<p>Versão inicial pronta para GitHub Pages. Substitua os datasets pelos dados completos da corrida.</p>
+<h2>Melhorias implementadas</h2>
+<ul>
+<li>Escalas separadas por tipo de métrica.</li>
+<li>Eixos identificados.</li>
+<li>Formato de tempo igual ao CSV (m:ss.mmm).</li>
+<li>Pronto para GitHub Pages.</li>
+</ul>
 </div>
 
 <div class="grid">
-<div class="card"><canvas id="pace"></canvas></div>
-<div class="card"><canvas id="cons"></canvas></div>
+<div class="metric"><b>Melhor volta Rodrigo</b><br>1:00.497</div>
+<div class="metric"><b>Melhor volta Guilherme</b><br>1:00.467</div>
+<div class="metric"><b>Média Rodrigo</b><br>1:00.998</div>
+<div class="metric"><b>Média Guilherme</b><br>1:01.804</div>
+</div>
+
+<div class="card">
+<h2>Evolução volta a volta</h2>
+<canvas id="laps"></canvas>
+<p class="small">Substitua os vetores pelos dados completos extraídos do CSV.</p>
+</div>
 </div>
 
 <script>
-new Chart(document.getElementById('pace'),{
+function formatLapTime(seconds){
+ const minutes=Math.floor(seconds/60);
+ const remaining=(seconds%60).toFixed(3).padStart(6,'0');
+ return `${minutes}:${remaining}`;
+}
+
+new Chart(document.getElementById('laps'),{
  type:'line',
  data:{
   labels:[1,2,3,4,5,6,7,8,9,10],
   datasets:[
-   {label:'Rodrigo',data:[61.8,61.2,61.0,60.9,60.8,60.7,60.6,60.7,60.5,60.5]},
-   {label:'Guilherme',data:[62.1,61.6,61.4,61.2,61.0,60.9,60.8,60.9,60.7,60.4]}
+   {label:'Rodrigo',data:[61.8,61.2,61.0,60.9,60.8,60.7,60.6,60.7,60.5,60.497]},
+   {label:'Guilherme',data:[62.1,61.6,61.4,61.2,61.0,60.9,60.8,60.9,60.7,60.467]}
   ]
- }
-});
-
-new Chart(document.getElementById('cons'),{
- type:'bar',
- data:{
-  labels:['Rodrigo','Guilherme'],
-  datasets:[{label:'Desvio padrão',data:[0.729,1.693]}]
+ },
+ options:{
+  responsive:true,
+  plugins:{
+   tooltip:{
+    callbacks:{
+      label:(ctx)=>`${ctx.dataset.label}: ${formatLapTime(ctx.parsed.y)}`
+    }
+   }
+  },
+  scales:{
+   x:{title:{display:true,text:'Número da volta'}},
+   y:{
+    title:{display:true,text:'Tempo da volta'},
+    ticks:{callback:(v)=>formatLapTime(v)}
+   }
+  }
  }
 });
 </script>
